@@ -1,0 +1,23 @@
+.main {
+    display: flex;
+    gap: 400px;
+    color: #4e4376;
+}
+
+.btn {
+    max-height: 51px;
+    background-image: linear-gradient(to right, #2b5876 0%, #4e4376  51%, #2b5876  100%);
+    padding: 10px 20px;
+    text-align: center;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    display: block;
+    border: none;
+    color: #ffdd70;
+}
+
+.btn:hover {
+    background-position: right center; /* change the direction of the change here */
+    text-decoration: none;
+}
