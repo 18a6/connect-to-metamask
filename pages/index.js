@@ -2,9 +2,39 @@ import Head from 'next/head'
 import {  Azeret_Mono  } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 
+import { ethers } from 'ethers' //got an error for lastest version, fixed it using npm i -S ethers@5.7.2
+import { useEffect, useState } from 'react'
+
 const azeret = Azeret_Mono({ subsets: ['latin'] })
 
 export default function Home() {
+  // to use ether.js we need a provider, a signer and a contract
+  const [hasMetamask, setHasMetamask] = useState(false)
+  const [isConnected, setIsConnected] = useState(false)
+  const [signer, setSigner] = useState(undefined)
+
+  useEffect(() => {
+    if (typeof window.ethereum !== 'undefined') {
+      setHasMetamask(true)
+    }
+  })
+
+  async function connect() {
+    if(typeof window.ethereum !== 'undefined') {
+      try {
+        await ethereum.request({ method: "eth_requestAccounts" })
+        setIsConnected(true)
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        setSigner(provider.getSigner())
+      } catch(e) {
+        console.log(e)
+      }
+    }
+    else {
+      setIsConnected(false)
+    }
+  }
+
   return (
     <>
         <Head>
@@ -14,7 +44,10 @@ export default function Home() {
         </Head>
         <main className={`${styles.main} ${azeret.className}`}>
           <p>connecting metamask 🦊 using next.js and ethers.js</p>
-          <button className={`${styles.btn} ${azeret.className}`}>connect</button>
+          {
+            isConnected ? `connected to metamask!` : <button className={`${styles.btn} ${azeret.className}`} onClick={() => connect()}>connect</button>
+          }
+          
         </main>
     </>
   )
