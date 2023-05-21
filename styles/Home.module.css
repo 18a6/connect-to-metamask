@@ -4,7 +4,6 @@
     align-items: center;
 
     justify-content: space-between;
-    color: #4e4376;
 }
 
 .btn {
@@ -14,7 +13,6 @@
     text-align: center;
     transition: 0.5s;
     background-size: 200% auto;
-    color: white;            
     display: block;
     border: none;
     color: #ffdd70;

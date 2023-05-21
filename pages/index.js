@@ -9,20 +9,16 @@ const azeret = Azeret_Mono({ subsets: ['latin'] })
 
 export default function Home() {
   // to use ether.js we need a provider, a signer and a contract
-  const [hasMetamask, setHasMetamask] = useState(false)
+  const [walletAddress, setWalletAddress] = useState('')
   const [isConnected, setIsConnected] = useState(false)
   const [signer, setSigner] = useState(undefined)
-
-  useEffect(() => {
-    if (typeof window.ethereum !== 'undefined') {
-      setHasMetamask(true)
-    }
-  })
 
   async function connect() {
     if(typeof window.ethereum !== 'undefined') {
       try {
-        await ethereum.request({ method: "eth_requestAccounts" })
+        const accounts = await ethereum.request({ method: "eth_requestAccounts" })
+        setWalletAddress(accounts[0]);
+
         setIsConnected(true)
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         setSigner(provider.getSigner())
@@ -43,9 +39,9 @@ export default function Home() {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
         <main className={`${styles.main} ${azeret.className}`}>
-          <p>connecting metamask 🦊 using next.js and ethers.js</p>
+          <p>connecting wallet using next.js and ethers.js</p>
           {
-            isConnected ? `connected to metamask!` : <button className={`${styles.btn} ${azeret.className}`} onClick={() => connect()}>connect</button>
+            isConnected ? `connected: ${walletAddress} ` : <button className={`${styles.btn} ${azeret.className}`} onClick={() => connect()}>connect</button> //fix case sensibility
           }
           
         </main>
